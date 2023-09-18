@@ -8,15 +8,15 @@ ChessBoard::ChessBoard()
     bitBoards[WHITE][KNIGHT] = 0x42;
     bitBoards[WHITE][BISHOP] = 0x24;
     bitBoards[WHITE][ROOK] = 0x81;
-    bitBoards[WHITE][QUEEN] = 0x10;
-    bitBoards[WHITE][KING] = 0x08;
+    bitBoards[WHITE][QUEEN] = 0x08;
+    bitBoards[WHITE][KING] = 0x10;
 
     bitBoards[BLACK][PAWN] = 0xFF000000000000;
     bitBoards[BLACK][KNIGHT] = 0x4200000000000000;
     bitBoards[BLACK][BISHOP] = 0x2400000000000000;
     bitBoards[BLACK][ROOK] = 0x8100000000000000;
-    bitBoards[BLACK][QUEEN] = 0x1000000000000000;
-    bitBoards[BLACK][KING] = 0x800000000000000;
+    bitBoards[BLACK][QUEEN] = 0x0800000000000000;
+    bitBoards[BLACK][KING] = 0x1000000000000000;
 
     pieceSymbols[WHITE][PAWN] = 'P';
     pieceSymbols[WHITE][KNIGHT] = 'N';
