@@ -315,6 +315,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClCompile Include="C:\Users\merli\Documents\Projects\Cave-Swallow\main.cpp" />
     <ClCompile Include="C:\Users\merli\Documents\Projects\Cave-Swallow\src\ChessBoard.cpp" />
+    <ClCompile Include="C:\Users\merli\Documents\Projects\Cave-Swallow\src\MoveGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\merli\Documents\Projects\Cave-Swallow\build\ZERO_CHECK.vcxproj">

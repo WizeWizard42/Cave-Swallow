@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "./ChessBoard.hpp"
+#include "../include/ChessBoard.hpp"
 
 ChessBoard::ChessBoard()
 {

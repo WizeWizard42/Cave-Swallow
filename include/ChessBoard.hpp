@@ -27,6 +27,8 @@ class ChessBoard
         // Converts the current stored position to FEN format for exporting.
         std::string toFEN();
 
+        friend class MoveGenerator;
+
     private:
         std::unordered_map<PieceType, U64> bitBoards[2];
         std::unordered_map<PieceType, char> pieceSymbols[2];

@@ -7,6 +7,9 @@
     <ClCompile Include="C:\Users\merli\Documents\Projects\Cave-Swallow\src\ChessBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\merli\Documents\Projects\Cave-Swallow\src\MoveGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\merli\Documents\Projects\Cave-Swallow\CMakeLists.txt" />
