@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "MinSizeRel/Cave-Swallow.exe"
+			"path" : "RelWithDebInfo/Cave-Swallow.exe"
 		},
 		{
-			"path" : "MinSizeRel/Cave-Swallow.pdb"
+			"path" : "RelWithDebInfo/Cave-Swallow.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -35,7 +35,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 14,
+				"line" : 15,
 				"parent" : 0
 			},
 			{
@@ -52,7 +52,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O1 /Ob1 /DNDEBUG"
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG"
 				}
 			],
 			"includes" : 
@@ -83,11 +83,11 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O1 /Ob1 /DNDEBUG",
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG",
 				"role" : "flags"
 			},
 			{
-				"fragment" : "/machine:X86 /INCREMENTAL:NO /subsystem:console",
+				"fragment" : "/machine:X86 /debug /INCREMENTAL /subsystem:console",
 				"role" : "flags"
 			},
 			{

@@ -5,53 +5,23 @@
 #include <vector>
 
 #include "./ChessBoard.hpp"
-
-typedef struct Coordinate // Typedef for a 2-integer coordinate. Also provides easy comparison.
+#include "./Coordinate.hpp"
+namespace MoveGenerator
 {
-    Coordinate(int x, int y) : coord{x, y} {}
+    // All functions to generate legal moves for each piece, respectively.
+    std::vector<Coordinate> generatePawnMoves(const ChessBoard& board, const Coordinate& position);
 
-    int& operator[](int i)
-    {
-        if (i < 0 || i >= 2) throw std::out_of_range("Index out of range");
-        return coord[i];
-    }
+    std::vector<Coordinate> generateKnightMoves(const ChessBoard& board, const Coordinate& position);
 
-    int operator[](int i) const
-    {
-        if (i < 0 || i >= 2) throw std::out_of_range("Index out of range");
-        return coord[i];
-    }
+    std::vector<Coordinate> generateBishopMoves(const ChessBoard& board, const Coordinate& position);
 
-    bool operator==(const Coordinate& other) const
-    {
-        return coord[0] == other.coord[0] && coord[1] == other.coord[1];
-    }
+    std::vector<Coordinate> generateRookMoves(const ChessBoard& board, const Coordinate& position);
 
-    bool operator!=(const Coordinate& other) const
-    {
-        return !(*this == other);
-    }
+    std::vector<Coordinate> generateQueenMoves(const ChessBoard& board, const Coordinate& position);
 
-    int coord[2];
-    
-} Coordinate;
+    std::vector<Coordinate> generateKingMoves(const ChessBoard& board, const Coordinate& position);
 
-class MoveGenerator
-{
-    public: // All functions to generate legal moves for each piece, respectively.
-        static std::vector<Coordinate> generatePawnMoves(const ChessBoard& board, const Coordinate& position);
-
-        static std::vector<Coordinate> generateKnightMoves(const ChessBoard& board, const Coordinate& position);
-
-        static std::vector<Coordinate> generateBishopMoves(const ChessBoard& board, const Coordinate& position);
-
-        static std::vector<Coordinate> generateRookMoves(const ChessBoard& board, const Coordinate& position);
-
-        static std::vector<Coordinate> generateQueenMoves(const ChessBoard& board, const Coordinate& position);
-
-        static std::vector<Coordinate> generateKingMoves(const ChessBoard& board, const Coordinate& position);
-
-        static std::vector<Coordinate> generateMoves(const ChessBoard& board, const Coordinate& position, ChessBoard::PieceType pieceType); // Generalized function that calls the appropriate piece generation function.
+    std::vector<Coordinate> generateMoves(const ChessBoard& board, const Coordinate& position, ChessBoard::PieceType pieceType); // Generalized function that calls the appropriate piece generation function.
 
 };
 

@@ -1,4 +1,5 @@
 #include <sstream>
+#include <iostream>
 
 #include "../include/ChessBoard.hpp"
 
@@ -36,7 +37,51 @@ ChessBoard::ChessBoard()
 
 };
 
-std::string ChessBoard::toFEN() {
+ChessBoard::PieceType ChessBoard::getPieceAt(const Coordinate& position) const
+{
+    int index = position[0] + 8 * position[1];
+    for (int color = WHITE; color <= BLACK; ++color)
+    {
+        for (int piece = PAWN; piece <= KING; ++piece)
+        {
+            if (bitBoards[color].at(static_cast<PieceType>(piece)) & (1ULL << index))
+            {
+                return static_cast<PieceType>(piece);
+            }
+        }
+    }
+    return EMPTY;
+};
+
+U64 ChessBoard::getBitBoardForPiece(PieceType piece, PlayerColor color) const
+{
+    return bitBoards[color].at(piece);
+};
+
+bool ChessBoard::isSquareOccupied(const Coordinate& position) const
+{
+    std::cout << "TODO: Implement square occupation checking" << std::endl;
+    return true;
+};
+
+bool ChessBoard::isSquareUnderAttack(const Coordinate& position, PlayerColor attacker) const
+{
+    std::cout << "TODO: Implement attack checking" << std::endl;
+    return true;
+};
+
+void ChessBoard::applyMove(const Coordinate& from, const Coordinate& to)
+{
+    std::cout << "TODO: Implement move logic" << std::endl;
+};
+
+void ChessBoard::undoMove(const Coordinate& from, const Coordinate& to)
+{
+    std::cout << "TODO: Implement reverse move logic" << std::endl;
+};
+
+std::string ChessBoard::toFEN()
+{
     std::ostringstream fen;
 
     for (int rank = 7; rank >= 0; rank--)

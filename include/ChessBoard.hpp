@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <string>
 
+#include "./Coordinate.hpp"
+
 typedef uint64_t U64;
 
 // A chess board. Uses bitboards to store the position of pieces in an 8x8 board.
@@ -14,6 +16,7 @@ class ChessBoard
     public:
         enum PieceType
         {
+            EMPTY = -1,
             PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
         };
 
@@ -24,10 +27,20 @@ class ChessBoard
 
         ChessBoard();
 
+        PieceType getPieceAt(const Coordinate& position) const;
+
+        U64 getBitBoardForPiece(PieceType piece, PlayerColor color) const;
+
+        bool isSquareOccupied(const Coordinate& position) const;
+
+        bool isSquareUnderAttack(const Coordinate& position, PlayerColor attacker) const;
+
+        void applyMove(const Coordinate& from, const Coordinate& to);
+
+        void undoMove(const Coordinate& from, const Coordinate& to);
+
         // Converts the current stored position to FEN format for exporting.
         std::string toFEN();
-
-        friend class MoveGenerator;
 
     private:
         std::unordered_map<PieceType, U64> bitBoards[2];
