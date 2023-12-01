@@ -8,21 +8,28 @@
 #include "./Coordinate.hpp"
 namespace MoveGenerator
 {
+    U64 generateHorizontalMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
+
+    U64 generateVerticalMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
+
+    U64 generateDiagonalMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
+
     // All functions to generate legal moves for each piece, respectively.
-    std::vector<Coordinate> generatePawnMoves(const ChessBoard& board, const Coordinate& position);
+    U64 generatePawnMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
 
-    std::vector<Coordinate> generateKnightMoves(const ChessBoard& board, const Coordinate& position);
+    U64 generateKnightMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
 
-    std::vector<Coordinate> generateBishopMoves(const ChessBoard& board, const Coordinate& position);
+    U64 generateBishopMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
 
-    std::vector<Coordinate> generateRookMoves(const ChessBoard& board, const Coordinate& position);
+    U64 generateRookMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
 
-    std::vector<Coordinate> generateQueenMoves(const ChessBoard& board, const Coordinate& position);
+    U64 generateQueenMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
 
-    std::vector<Coordinate> generateKingMoves(const ChessBoard& board, const Coordinate& position);
+    U64 generateKingMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
 
-    std::vector<Coordinate> generateMoves(const ChessBoard& board, const Coordinate& position, ChessBoard::PieceType pieceType); // Generalized function that calls the appropriate piece generation function.
+    U64 generateMoves(const ChessBoard& board, const Coordinate& position, std::tuple<ChessBoard::PlayerColor, ChessBoard::PieceType> piece); // Generalized function that calls the appropriate piece generation function.
 
+    U64 reverseBoard(U64 n);
 };
 
 #endif

@@ -5,6 +5,7 @@
 
 #include <unordered_map>
 #include <string>
+#include <tuple>
 
 #include "./Coordinate.hpp"
 
@@ -22,18 +23,23 @@ class ChessBoard
 
         enum PlayerColor
         {
+            NONE = -1,
             WHITE, BLACK
         };
 
         ChessBoard();
 
-        PieceType getPieceAt(const Coordinate& position) const;
+        std::tuple<PlayerColor, PieceType> getPieceAt(const Coordinate& position) const;
 
         U64 getBitBoardForPiece(PieceType piece, PlayerColor color) const;
 
-        bool isSquareOccupied(const Coordinate& position) const;
+        U64 coordinateToBitboard(Coordinate position) const;
 
-        bool isSquareUnderAttack(const Coordinate& position, PlayerColor attacker) const;
+        U64 getOccupancyBitboard() const;
+        
+        U64 getOccupancyBitboard(PlayerColor color) const;
+
+        bool isSquareOccupied(const Coordinate& position) const;
 
         void applyMove(const Coordinate& from, const Coordinate& to);
 

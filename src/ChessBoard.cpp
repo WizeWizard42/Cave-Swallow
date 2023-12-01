@@ -37,7 +37,7 @@ ChessBoard::ChessBoard()
 
 };
 
-ChessBoard::PieceType ChessBoard::getPieceAt(const Coordinate& position) const
+std::tuple<ChessBoard::PlayerColor, ChessBoard::PieceType> ChessBoard::getPieceAt(const Coordinate& position) const
 {
     int index = position[0] + 8 * position[1];
     for (int color = WHITE; color <= BLACK; ++color)
@@ -46,11 +46,11 @@ ChessBoard::PieceType ChessBoard::getPieceAt(const Coordinate& position) const
         {
             if (bitBoards[color].at(static_cast<PieceType>(piece)) & (1ULL << index))
             {
-                return static_cast<PieceType>(piece);
+                return {static_cast<PlayerColor>(color), static_cast<PieceType>(piece)};
             }
         }
     }
-    return EMPTY;
+    return {NONE, EMPTY};
 };
 
 U64 ChessBoard::getBitBoardForPiece(PieceType piece, PlayerColor color) const
@@ -58,15 +58,35 @@ U64 ChessBoard::getBitBoardForPiece(PieceType piece, PlayerColor color) const
     return bitBoards[color].at(piece);
 };
 
+U64 ChessBoard::getOccupancyBitboard() const
+{
+    return this->getOccupancyBitboard(WHITE) | this->getOccupancyBitboard(BLACK);
+};
+        
+U64 ChessBoard::getOccupancyBitboard(PlayerColor color) const
+{
+    U64 occupancy = 0;
+
+    for (int type = PAWN; type <= KING; ++type)
+    {
+        occupancy |= getBitBoardForPiece(static_cast<PieceType>(type), color);
+    }
+
+    return occupancy;
+};
+
+U64 ChessBoard::coordinateToBitboard(Coordinate position) const
+{
+    if (position[0] < 0 || position[0] > 7 || position[1] < 0 || position[1] > 7) {
+        return 0; // Return 0 if the coordinates are out of bounds
+    }
+
+    return 1ULL << ((position[1] * 8) + position[0]);
+};
+
 bool ChessBoard::isSquareOccupied(const Coordinate& position) const
 {
     std::cout << "TODO: Implement square occupation checking" << std::endl;
-    return true;
-};
-
-bool ChessBoard::isSquareUnderAttack(const Coordinate& position, PlayerColor attacker) const
-{
-    std::cout << "TODO: Implement attack checking" << std::endl;
     return true;
 };
 

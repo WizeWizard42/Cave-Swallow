@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     {
         for (int x = 0; x < 8; x++)
         {
-            std::cout << game.getPieceAt(Coordinate(x, y)) << " ";
+            std::cout << std::get<1>(game.getPieceAt(Coordinate(x, y))) << " ";
         }
         std::cout << std::endl;
     }
