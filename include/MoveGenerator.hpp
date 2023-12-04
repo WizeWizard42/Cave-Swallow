@@ -30,6 +30,8 @@ namespace MoveGenerator
     U64 generateMoves(const ChessBoard& board, const Coordinate& position, std::tuple<ChessBoard::PlayerColor, ChessBoard::PieceType> piece); // Generalized function that calls the appropriate piece generation function.
 
     U64 reverseBoard(U64 n);
+
+    U64 createDiagonalMask(const Coordinate& position);
 };
 
 #endif

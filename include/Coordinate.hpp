@@ -5,6 +5,8 @@
 
 struct Coordinate // Struct for a 2-integer coordinate. Also provides easy comparison.
 {
+    Coordinate() : coord{0, 0} {}
+
     Coordinate(int x, int y) : coord{x, y} {}
 
     int& operator[](int i)

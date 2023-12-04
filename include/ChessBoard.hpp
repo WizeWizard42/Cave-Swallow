@@ -29,6 +29,7 @@ class ChessBoard
 
         ChessBoard();
 
+        // Returns the piece at the given position.
         std::tuple<PlayerColor, PieceType> getPieceAt(const Coordinate& position) const;
 
         U64 getBitBoardForPiece(PieceType piece, PlayerColor color) const;
@@ -44,6 +45,10 @@ class ChessBoard
         void applyMove(const Coordinate& from, const Coordinate& to);
 
         void undoMove(const Coordinate& from, const Coordinate& to);
+
+        void placePiece(const PieceType piece, const PlayerColor color, const Coordinate& position);
+
+        void clearBoard();
 
         // Converts the current stored position to FEN format for exporting.
         std::string toFEN();

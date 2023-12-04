@@ -10,32 +10,62 @@ namespace MoveGenerator
         U64 occupied = board.getOccupancyBitboard();
         U64 friendlyOccupied = board.getOccupancyBitboard(color);
         U64 pieceBoard = board.coordinateToBitboard(position);
-        U64 moveMask;
+        U64 rankMask = 0xFFULL << (position[1] * 8); // Generate mask for the rank of the piece
 
-        // Generate ray to the left
-        U64 leftRay = (occupied - 2 * pieceBoard) ^ occupied;
-        
-        // Generate ray to the right
-        U64 rightRay = reverseBoard(reverseBoard(occupied) - 2 * reverseBoard(pieceBoard)) ^ reverseBoard(occupied);
+        // Generate ray to the left and right
+        U64 moveMask = ((occupied - 2 * pieceBoard) ^ (reverseBoard(reverseBoard(occupied) - 2 * reverseBoard(pieceBoard)))) & rankMask;
 
-        // Combine left and right rays
-        moveMask = leftRay | rightRay;
-
-        // Remove original piece position and positions beyond roadblocks
+        // Exclude friendly occupied squares
         moveMask &= ~friendlyOccupied;
-        moveMask &= ~(moveMask - 2 * pieceBoard);
 
         return moveMask;
     };
 
     U64 generateVerticalMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
-        return 0;
+        U64 occupied = board.getOccupancyBitboard();
+        U64 friendlyOccupied = board.getOccupancyBitboard(color);
+        U64 pieceBoard = board.coordinateToBitboard(position);
+        U64 fileMask = 0x0101010101010101ULL << position[0]; // Generate mask for the file of the piece
+
+        // Generate ray upward
+        U64 upwardRay = occupied - (pieceBoard << 8);
+        upwardRay = upwardRay ^ reverseBoard(reverseBoard(occupied) - (reverseBoard(pieceBoard) << 8));
+
+        // Generate ray downward
+        U64 downwardRay = reverseBoard(reverseBoard(occupied) - (reverseBoard(pieceBoard) >> 8));
+        downwardRay = downwardRay ^ (occupied - (pieceBoard >> 8));
+
+        U64 moveMask = ((upwardRay | downwardRay) & fileMask) & ~friendlyOccupied;
+
+        return moveMask;
     };
 
     U64 generateDiagonalMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
-        return 0;
+        U64 occupied = board.getOccupancyBitboard();
+        U64 friendlyOccupied = board.getOccupancyBitboard(color);
+        U64 pieceBoard = board.coordinateToBitboard(position);
+        U64 diagonalMask = createDiagonalMask(position);
+
+        // Generate diagonal rays
+        U64 upRightRay = occupied - (pieceBoard << 9);
+        upRightRay = upRightRay ^ reverseBoard(reverseBoard(occupied) - (reverseBoard(pieceBoard) << 9));
+
+        U64 upLeftRay = occupied - (pieceBoard << 7);
+        upLeftRay = upLeftRay ^ reverseBoard(reverseBoard(occupied) - (reverseBoard(pieceBoard) << 7));
+
+        U64 downRightRay = reverseBoard(reverseBoard(occupied) - (reverseBoard(pieceBoard) >> 7));
+        downRightRay = downRightRay ^ (occupied - (pieceBoard >> 7));
+
+        U64 downLeftRay = reverseBoard(reverseBoard(occupied) - (reverseBoard(pieceBoard) >> 9));
+        downLeftRay = downLeftRay ^ (occupied - (pieceBoard >> 9));
+
+        // Combine rays and apply diagonal mask
+        U64 moveMask = (upRightRay | upLeftRay | downRightRay | downLeftRay) & diagonalMask;
+        moveMask &= ~friendlyOccupied;
+
+        return moveMask;
     };
 
     U64 generatePawnMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
@@ -52,20 +82,19 @@ namespace MoveGenerator
 
     U64 generateBishopMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
-        std::cout << "TODO: Implement bishop move generation" << std::endl;
-        return 0;
+        return generateDiagonalMoves(board, position, color);
     };
 
     U64 generateRookMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
-        std::cout << "TODO: Implement rook move generation" << std::endl;
-        return 0;
+        return generateHorizontalMoves(board, position, color) | generateVerticalMoves(board, position, color);
     };
 
     U64 generateQueenMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
-        std::cout << "TODO: Implement queen move generation" << std::endl;
-        return 0;
+        return (generateHorizontalMoves(board, position, color)
+                | generateVerticalMoves(board, position, color)
+                | generateDiagonalMoves(board, position, color));
     };
 
     U64 generateKingMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
@@ -105,6 +134,23 @@ namespace MoveGenerator
         n = (n >> 32) | (n << 32);
         return n;
     };
+
+    U64 createDiagonalMask(const Coordinate& position) {
+        const U64 mainDiagonal = 0x8040201008040201ULL;
+        const U64 antiDiagonal = 0x0102040810204080ULL;
+        
+        int file = position[0];
+        int rank = position[1];
+        int a1h8DiagonalShift = rank - file;
+        int h1a8DiagonalShift = rank + file - 7;
+
+        U64 a1h8Diagonal = (a1h8DiagonalShift > 0) ? (mainDiagonal << (8 * a1h8DiagonalShift))
+                                                : (mainDiagonal >> (-8 * a1h8DiagonalShift));
+        U64 h1a8Diagonal = (h1a8DiagonalShift > 0) ? (antiDiagonal << (8 * h1a8DiagonalShift))
+                                                : (antiDiagonal >> (-8 * h1a8DiagonalShift));
+
+        return a1h8Diagonal | h1a8Diagonal;
+}
 };
 
 
