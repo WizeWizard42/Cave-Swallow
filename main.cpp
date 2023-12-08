@@ -41,6 +41,14 @@ void testDiagonalMoves(const ChessBoard& board, const Coordinate& position, Ches
 
 }
 
+void testPawnMoves(const ChessBoard& board, const Coordinate& position, ChessBoard::PlayerColor color) {
+
+    std::cout << "Testing pawn moves from position (" << position[0] << ", " << position[1] << ") for color " << (color == ChessBoard::WHITE ? "White" : "Black") << ":" << std::endl;
+    U64 moves = MoveGenerator::generatePawnMoves(board, position, color);
+    printBitboard(moves);
+
+}
+
 
 
 int main() {
@@ -59,13 +67,13 @@ int main() {
 
     std::cout << "Test 1: Empty board\\n";
 
-    position = Coordinate(4, 4); // E5
+    position = Coordinate(4, 2); // E3
 
     color = ChessBoard::WHITE;
 
-    board.placePiece(ChessBoard::ROOK, color, position);
+    board.placePiece(ChessBoard::PAWN, color, position);
 
-    testDiagonalMoves(board, position, color);
+    testPawnMoves(board, position, color);
 
 
 

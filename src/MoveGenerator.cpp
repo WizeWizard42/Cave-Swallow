@@ -5,6 +5,11 @@
 
 namespace MoveGenerator
 {
+    const U64 SECOND_RANK = 0xFF00ULL;
+    const U64 SEVENTH_RANK = 0x00FF000000000000ULL;
+    const U64 A_FILE = 0x0101010101010101ULL;
+    const U64 H_FILE = 0x8080808080808080ULL;
+
     U64 generateHorizontalMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
         U64 occupied = board.getOccupancyBitboard();
@@ -70,8 +75,31 @@ namespace MoveGenerator
 
     U64 generatePawnMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
-        std::cout << "TODO: Implement pawn move generation" << std::endl;
-        return 0;
+        U64 occupied = board.getOccupancyBitboard();
+        U64 friendlyOccupied = board.getOccupancyBitboard(color);
+        U64 pieceBoard = board.coordinateToBitboard(position);
+        U64 moveMask;
+
+        if (color == ChessBoard::WHITE)
+        {
+            // Generate single and double pawn pushes
+            moveMask = (pieceBoard << 8) & ~occupied | ((pieceBoard & SECOND_RANK) << 16) & ~(occupied | (occupied << 8));
+
+            // Generate captures if there is a piece to capture, preventing wraparound
+            moveMask |= (pieceBoard << 7) & occupied & ~friendlyOccupied & ~H_FILE;
+            moveMask |= (pieceBoard << 9) & occupied & ~friendlyOccupied & ~A_FILE;
+        }
+        else if (color == ChessBoard::BLACK)
+        {
+            // Generate single and double pawn pushes
+            moveMask = (pieceBoard >> 8) & ~occupied | ((pieceBoard & SEVENTH_RANK) >> 16) & ~(occupied | (occupied >> 8));
+
+            // Generate captures if there is a piece to capture, preventing wraparound
+            moveMask |= (pieceBoard >> 7) & occupied & ~friendlyOccupied & ~A_FILE;
+            moveMask |= (pieceBoard >> 9) & occupied & ~friendlyOccupied & ~H_FILE;
+        }
+
+        return moveMask;
     };
 
     U64 generateKnightMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
