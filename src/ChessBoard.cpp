@@ -55,7 +55,7 @@ std::tuple<ChessBoard::PlayerColor, ChessBoard::PieceType> ChessBoard::getPieceA
 
 std::tuple<ChessBoard::PlayerColor, ChessBoard::PieceType> ChessBoard::getPieceAt(const Coordinate& position, const ChessBoard::PlayerColor color) const
 {
-    int index = position[0] + 8 * position[1];
+    int index = ((position[1] * 8) + position[0]);
     for (int piece = PAWN; piece <= KING; ++piece)
     {
         if (bitBoards[color].at(static_cast<PieceType>(piece)) & (1ULL << index))
