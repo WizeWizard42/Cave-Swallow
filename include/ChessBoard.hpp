@@ -31,6 +31,7 @@ class ChessBoard
 
         // Returns the piece at the given position.
         std::tuple<PlayerColor, PieceType> getPieceAt(const Coordinate& position) const;
+        std::tuple<PlayerColor, PieceType> getPieceAt(const Coordinate& position, const PlayerColor color) const;
 
         U64 getBitBoardForPiece(PieceType piece, PlayerColor color) const;
 
