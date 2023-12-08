@@ -78,26 +78,18 @@ namespace MoveGenerator
         U64 occupied = board.getOccupancyBitboard();
         U64 friendlyOccupied = board.getOccupancyBitboard(color);
         U64 pieceBoard = board.coordinateToBitboard(position);
-        U64 moveMask;
 
-        if (color == ChessBoard::WHITE)
+        auto shift = [color](U64 bitboard, int shift)
         {
-            // Generate single and double pawn pushes
-            moveMask = (pieceBoard << 8) & ~occupied | ((pieceBoard & SECOND_RANK) << 16) & ~(occupied | (occupied << 8));
+            return color == ChessBoard::WHITE ? bitboard << shift : bitboard >> shift;
+        };
 
-            // Generate captures if there is a piece to capture, preventing wraparound
-            moveMask |= (pieceBoard << 7) & occupied & ~friendlyOccupied & ~H_FILE;
-            moveMask |= (pieceBoard << 9) & occupied & ~friendlyOccupied & ~A_FILE;
-        }
-        else if (color == ChessBoard::BLACK)
-        {
-            // Generate single and double pawn pushes
-            moveMask = (pieceBoard >> 8) & ~occupied | ((pieceBoard & SEVENTH_RANK) >> 16) & ~(occupied | (occupied >> 8));
-
-            // Generate captures if there is a piece to capture, preventing wraparound
-            moveMask |= (pieceBoard >> 7) & occupied & ~friendlyOccupied & ~A_FILE;
-            moveMask |= (pieceBoard >> 9) & occupied & ~friendlyOccupied & ~H_FILE;
-        }
+        // Generate single and double pawn pushes
+        U64 moveMask = shift(pieceBoard, 8) & ~occupied | (shift(pieceBoard & (color == ChessBoard::WHITE ? SECOND_RANK : SEVENTH_RANK), 16) & ~(occupied | shift(occupied, 8)));
+        
+        // Generate pawn captures
+        moveMask |= shift(pieceBoard, 7) & occupied & ~friendlyOccupied & ~(color == ChessBoard::WHITE ? H_FILE : A_FILE);
+        moveMask |= shift(pieceBoard, 9) & occupied & ~friendlyOccupied & ~(color == ChessBoard::WHITE ? A_FILE : H_FILE);
 
         return moveMask;
     };
