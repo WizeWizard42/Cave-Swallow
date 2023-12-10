@@ -31,6 +31,12 @@ struct Coordinate // Struct for a 2-integer coordinate. Also provides easy compa
         return !(*this == other);
     }
 
+    void setCoord(int x, int y)
+    {
+        coord[0] = x;
+        coord[1] = y;
+    }
+
     int coord[2];
     
 };

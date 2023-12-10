@@ -54,26 +54,68 @@ void testPawnMoves(const ChessBoard& board, const Coordinate& position, ChessBoa
 int main() {
 
     ChessBoard board;
-
     Coordinate position;
-
-    ChessBoard::PlayerColor color;
-
+    
+    // Test Pawn Moves
     board.clearBoard();
+    position.setCoord(4, 1); // e2
+    board.placePiece(ChessBoard::PAWN, ChessBoard::WHITE, position);
+    U64 pawnMoves = MoveGenerator::generatePawnMoves(board, position, ChessBoard::WHITE);
+    std::cout << "Pawn moves from e2:\n";
+    printBitboard(pawnMoves);
 
+    // Test Knight Moves
+    board.clearBoard();
+    position.setCoord(1, 0); // b1
+    board.placePiece(ChessBoard::KNIGHT, ChessBoard::WHITE, position);
+    U64 knightMoves = MoveGenerator::generateKnightMoves(board, position, ChessBoard::WHITE);
+    std::cout << "Knight moves from b1:\n";
+    printBitboard(knightMoves);
+
+    // Test Bishop Moves
+    board.clearBoard();
+    position.setCoord(2, 3); // c4
+    board.placePiece(ChessBoard::BISHOP, ChessBoard::WHITE, position);
+    U64 bishopMoves = MoveGenerator::generateBishopMoves(board, position, ChessBoard::WHITE);
+    std::cout << "Bishop moves from c4:\n";
+    printBitboard(bishopMoves);
+
+    // Test Rook Moves
+    board.clearBoard();
+    position.setCoord(4, 4); // e5
+    board.placePiece(ChessBoard::ROOK, ChessBoard::WHITE, position);
+    U64 rookMoves = MoveGenerator::generateRookMoves(board, position, ChessBoard::WHITE);
+    std::cout << "Rook moves from e5:\n";
+    printBitboard(rookMoves);
+
+    // Test Queen Moves
+    board.clearBoard();
+    position.setCoord(4, 4); // e5
+    board.placePiece(ChessBoard::QUEEN, ChessBoard::WHITE, position);
+    U64 queenMoves = MoveGenerator::generateQueenMoves(board, position, ChessBoard::WHITE);
+    std::cout << "Queen moves from e5:\n";
+    printBitboard(queenMoves);
+
+    // Test King Moves
+    board.clearBoard();
+    position.setCoord(6, 1); // g2
+    board.placePiece(ChessBoard::KING, ChessBoard::WHITE, position);
+    U64 kingMoves = MoveGenerator::generateKingMoves(board, position, ChessBoard::WHITE);
+    std::cout << "King moves from g2:\n";
+    printBitboard(kingMoves);
 
 
     // Test 1: Empty board
 
     std::cout << "Test 1: Empty board\\n";
 
-    position = Coordinate(4, 2); // E3
+    board.clearBoard();
 
-    color = ChessBoard::WHITE;
+    position.setCoord(4, 2); // E3
 
-    board.placePiece(ChessBoard::PAWN, color, position);
+    board.placePiece(ChessBoard::PAWN, ChessBoard::WHITE, position);
 
-    testPawnMoves(board, position, color);
+    testPawnMoves(board, position, ChessBoard::WHITE);
 
 
 
@@ -85,11 +127,9 @@ int main() {
 
     board.placePiece(ChessBoard::ROOK, ChessBoard::BLACK, Coordinate(4, 3)); // E4
 
-    position = Coordinate(4, 4); // E5
+    position.setCoord(4, 4); // E5
 
-    color = ChessBoard::WHITE;
-
-    testVerticalMoves(board, position, color);
+    testVerticalMoves(board, position, ChessBoard::WHITE);
 
 
 
@@ -99,9 +139,9 @@ int main() {
 
     board.clearBoard();
 
-    position = Coordinate(0, 4); // A5
+    position.setCoord(0, 4); // A5
 
-    testHorizontalMoves(board, position, color);
+    testHorizontalMoves(board, position, ChessBoard::WHITE);
 
 
 
@@ -115,9 +155,9 @@ int main() {
 
     board.placePiece(ChessBoard::ROOK, ChessBoard::WHITE, Coordinate(5, 4)); // E6
 
-    position = Coordinate(4, 4); // E5
+    position.setCoord(4, 4); // E5
 
-    testHorizontalMoves(board, position, color);
+    testHorizontalMoves(board, position, ChessBoard::WHITE);
 
 
 
