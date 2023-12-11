@@ -15,3 +15,6 @@ cmake ..
 make
 ```
 Your executable should now be in the `build` directory!
+
+![Demo 1](demo1.png)
+![Demo 2](demo2.png)
