@@ -188,7 +188,7 @@ std::string ChessBoard::toFEN()
 
     // Rest of FEN information (active color, castling rights, en passant, etc.)
 
-    fen << whiteToMove ? " w " : " b ";
+    fen << (whiteToMove ? " w " : " b ");
 
     // Print - if no castling rights, otherwise print appropriate letters.
     if (!(castleRights[WHITE][0] || castleRights[WHITE][1] || castleRights[BLACK][0] || castleRights[BLACK][1]))
