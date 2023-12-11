@@ -27,10 +27,13 @@ namespace MoveGenerator
 
     U64 generateKingMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color);
 
-    U64 generateMoves(const ChessBoard& board, const Coordinate& position, std::tuple<ChessBoard::PlayerColor, ChessBoard::PieceType> piece); // Generalized function that calls the appropriate piece generation function.
+    // Generalized function that calls the appropriate piece generation function.
+    U64 generateMoves(const ChessBoard& board, const Coordinate& position, std::tuple<ChessBoard::PlayerColor, ChessBoard::PieceType> piece);
 
+    // Uses bit twiddling to reverse the bits of a bitboard.
     U64 reverseBoard(U64 n);
 
+    // Returns a diagonal mask for the given position.
     U64 createDiagonalMask(const Coordinate& position);
 };
 

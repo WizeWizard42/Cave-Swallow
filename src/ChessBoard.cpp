@@ -102,6 +102,11 @@ bool ChessBoard::isSquareOccupied(const Coordinate& position) const
     return (this->getOccupancyBitboard() & this->coordinateToBitboard(position));
 };
 
+std::tuple<bool, bool> ChessBoard::canCastle(const ChessBoard::PlayerColor color) const
+{
+    return {this->castleRights[color][0], this->castleRights[color][1]};
+}
+
 void ChessBoard::applyMove(const Coordinate& from, const Coordinate& to)
 {
     std::cout << "TODO: Implement move logic" << std::endl;
@@ -183,16 +188,24 @@ std::string ChessBoard::toFEN()
 
     // Rest of FEN information (active color, castling rights, en passant, etc.)
 
-    if (whiteToMove)
+    fen << whiteToMove ? " w " : " b ";
+
+    // Print - if no castling rights, otherwise print appropriate letters.
+    if (!(castleRights[WHITE][0] || castleRights[WHITE][1] || castleRights[BLACK][0] || castleRights[BLACK][1]))
     {
-        fen << " w";
+        fen << "- ";
     }
     else
     {
-        fen << " b";
+        if (castleRights[WHITE][0]) fen << "K";
+        if (castleRights[WHITE][1]) fen << "Q";
+        if (castleRights[BLACK][0]) fen << "k";
+        if (castleRights[BLACK][1]) fen << "q";
+
+        fen << " ";
     }
 
-    fen << " - - 0 1"; 
+    fen << enPassantTargetSquare << " " << halfMoveClock << " " << fullMoveNumber;
 
     return fen.str();
 }
