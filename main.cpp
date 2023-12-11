@@ -41,6 +41,13 @@ void testDiagonalMoves(const ChessBoard& board, const Coordinate& position, Ches
 
 }
 
+void testKnightMoves(const ChessBoard& board, const Coordinate& position, ChessBoard::PlayerColor color) {
+
+    std::cout << "Testing knight moves from position (" << position[0] << ", " << position[1] << ") for color " << (color == ChessBoard::WHITE ? "White" : "Black") << ":" << std::endl;
+    U64 moves = MoveGenerator::generateKnightMoves(board, position, color);
+    printBitboard(moves);
+}
+
 void testPawnMoves(const ChessBoard& board, const Coordinate& position, ChessBoard::PlayerColor color) {
 
     std::cout << "Testing pawn moves from position (" << position[0] << ", " << position[1] << ") for color " << (color == ChessBoard::WHITE ? "White" : "Black") << ":" << std::endl;

@@ -43,20 +43,20 @@ class ChessBoard
 
         bool isSquareOccupied(const Coordinate& position) const;
 
-        void applyMove(const Coordinate& from, const Coordinate& to);
+        void applyMove(const Coordinate& from, const Coordinate& to); // Change to use command pattern
 
-        void undoMove(const Coordinate& from, const Coordinate& to);
+        void undoMove(const Coordinate& from, const Coordinate& to); // Same as above
 
         void placePiece(const PieceType piece, const PlayerColor color, const Coordinate& position);
 
         void clearBoard();
 
-        // Converts the current stored position to FEN format for exporting.
+        // Converts the current stored position to FEN format for exporting. Move this to GameController later.
         std::string toFEN();
 
     private:
         std::unordered_map<PieceType, U64> bitBoards[2];
-        std::unordered_map<PieceType, char> pieceSymbols[2];
+        std::unordered_map<PieceType, char> pieceSymbols[2]; // Make this a public static member later. Maybe move to GameController?
 
         bool whiteToMove;
 

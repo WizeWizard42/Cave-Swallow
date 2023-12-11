@@ -8,6 +8,8 @@ namespace MoveGenerator
     const U64 SECOND_RANK = 0xFF00ULL;
     const U64 SEVENTH_RANK = 0x00FF000000000000ULL;
     const U64 A_FILE = 0x0101010101010101ULL;
+    const U64 B_FILE = 0x0202020202020202ULL;
+    const U64 G_FILE = 0x4040404040404040ULL;
     const U64 H_FILE = 0x8080808080808080ULL;
 
     U64 generateHorizontalMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
@@ -96,8 +98,38 @@ namespace MoveGenerator
 
     U64 generateKnightMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
-        std::cout << "TODO: Implement knight move generation" << std::endl;
-        return 0;
+        U64 friendlyOccupied = board.getOccupancyBitboard(color);
+        U64 pieceBoard = board.coordinateToBitboard(position);
+
+        U64 moveMask = 0ULL;
+
+        if (position[0] < 6)
+        {
+            moveMask |= (pieceBoard << 17);
+            moveMask |= (pieceBoard >> 15);
+        }
+
+        if (position[0] < 7)
+        {
+            moveMask |= (pieceBoard << 10);
+            moveMask |= (pieceBoard >> 6);
+        }
+
+        if (position[0] > 0)
+        {
+            moveMask |= (pieceBoard << 15);
+            moveMask |= (pieceBoard >> 17);
+        }
+
+        if (position[0] > 1)
+        {
+            moveMask |= (pieceBoard << 6);
+            moveMask |= (pieceBoard >> 10);
+        }
+
+        moveMask &= ~friendlyOccupied;
+
+        return moveMask;
     };
 
     U64 generateBishopMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
@@ -119,8 +151,32 @@ namespace MoveGenerator
 
     U64 generateKingMoves(const ChessBoard& board, const Coordinate& position, const ChessBoard::PlayerColor& color)
     {
-        std::cout << "TODO: Implement king move generation" << std::endl;
-        return 0;
+        U64 occupied = board.getOccupancyBitboard();
+        U64 friendlyOccupied = board.getOccupancyBitboard(color);
+        U64 pieceBoard = board.coordinateToBitboard(position);
+
+        U64 moveMask = 0ULL;
+
+        if (position[0] < 7)
+        {
+            moveMask |= (pieceBoard << 1);
+            moveMask |= (pieceBoard << 9);
+            moveMask |= (pieceBoard >> 7);
+        }
+
+        if (position[0] > 0)
+        {
+            moveMask |= (pieceBoard >> 1);
+            moveMask |= (pieceBoard << 7);
+            moveMask |= (pieceBoard >> 9);
+        }
+        
+        moveMask |= (pieceBoard << 8);
+        moveMask |= (pieceBoard >> 8);
+
+        moveMask &= ~friendlyOccupied;
+
+        return moveMask;
     };
 
     U64 generateMoves(const ChessBoard& board, const Coordinate& position, std::tuple<ChessBoard::PlayerColor, ChessBoard::PieceType> piece)
@@ -170,7 +226,7 @@ namespace MoveGenerator
                                                 : (antiDiagonal >> (-8 * h1a8DiagonalShift));
 
         return a1h8Diagonal | h1a8Diagonal;
-}
+    }
 };
 
 
