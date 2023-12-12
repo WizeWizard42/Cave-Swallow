@@ -169,11 +169,11 @@ int main() {
 
     // Populate the board with multiple pieces
 
-    board.placePiece(ChessBoard::ROOK, ChessBoard::WHITE, Coordinate(4, 6)); // E7
-    board.placePiece(ChessBoard::PAWN, ChessBoard::BLACK, Coordinate(4, 3)); // E4
-    board.placePiece(ChessBoard::KNIGHT, ChessBoard::BLACK, Coordinate(1, 1)); // D5
-    board.placePiece(ChessBoard::KING, ChessBoard::BLACK, Coordinate(6, 5)); // G6
-    board.placePiece(ChessBoard::KING, ChessBoard::WHITE, Coordinate(2, 5)); // C6
+    board.placePiece(ChessBoard::ROOK, ChessBoard::WHITE, Coordinate(4, 6)); // e7
+    board.placePiece(ChessBoard::PAWN, ChessBoard::BLACK, Coordinate(4, 3)); // e4
+    board.placePiece(ChessBoard::KNIGHT, ChessBoard::BLACK, Coordinate(1, 1)); // b2
+    board.placePiece(ChessBoard::KING, ChessBoard::BLACK, Coordinate(6, 5)); // g6
+    board.placePiece(ChessBoard::KING, ChessBoard::WHITE, Coordinate(2, 5)); // c6
 
     // Print current FEN string to terminal
     std::cout << board.toFEN() << std::endl;
